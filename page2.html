@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulir Pemesanan - Makanan Bergizi Anak</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(25, 118, 210, 0.3);
+      }
+      h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+      .section {
+        background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(25, 118, 210, 0.15);
+        margin-bottom: 30px;
+      }
+      .menu-display {
+        background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        margin: 20px 0;
+        border-left: 5px solid #28a745;
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+      }
+      .menu-list {
+        display: grid;
+        gap: 15px;
+        margin-top: 15px;
+      }
+      .menu-item {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #28a745;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      }
+      .total-portions {
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: 20px 0;
+        border-left: 5px solid #ffc107;
+        font-size: 1.2em;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+      }
+      .limit-warning {
+        background: #ffebee;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-left: 5px solid #f44336;
+        color: #c62828;
+        box-shadow: 0 3px 10px rgba(244, 67, 54, 0.2);
+      }
+      .quota-info {
+        background: #e8f5e8;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-left: 5px solid #4caf50;
+        color: #2e7d32;
+        box-shadow: 0 3px 10px rgba(76, 175, 80, 0.2);
+      }
+      .step-info {
+        background: #e3f2fd;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-left: 5px solid #2196f3;
+        color: #1976d2;
+        box-shadow: 0 3px 10px rgba(33, 150, 243, 0.2);
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 25px;
+      }
+      label {
+        font-weight: bold;
+        color: #1976d2;
+        font-size: 1.1em;
+      }
+      input,
+      textarea,
+      select {
+        padding: 15px;
+        border: 2px solid #bbdefb;
+        border-radius: 10px;
+        font-size: 16px;
+        background: white;
+        transition: all 0.3s ease;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #1976d2;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        transform: translateY(-2px);
+      }
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+      .btn {
+        background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        color: white;
+        padding: 18px 40px;
+        border: none;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        width: 100%;
+        margin: 10px 0;
+        box-shadow: 0 5px 15px rgba(25, 118, 210, 0.3);
+      }
+      .btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(25, 118, 210, 0.4);
+      }
+      .btn:disabled {
+        background: #b0bec5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+      .btn-back {
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        width: auto;
+        padding: 15px 30px;
+        margin-right: 15px;
+        box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+      }
+      .btn-back:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(108, 117, 125, 0.4);
+      }
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+        .section {
+          padding: 25px 20px;
+        }
+        h1 {
+          font-size: 1.8em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📝 Formulir Pemesanan</h1>
+        <p class="subtitle">
+          Langkah 2 dari 4 - Isi data lengkap untuk verifikasi kuota
+        </p>
+      </div>
+
+      <div class="step-info">
+        <strong
+          >⏭️ Sudah memilih <span id="totalPortions">0</span> menu
+          bergizi:</strong
+        >
+      </div>
+
+      <div class="quota-info" id="quotaInfo" style="display: none">
+        <strong>✅ Kuota tersedia untuk NIK ini</strong>
+      </div>
+
+      <div class="limit-warning" id="limitWarning" style="display: none">
+        <strong>❌ Kuota pemesanan habis!</strong>
+      </div>
+
+      <div class="section">
+        <form id="orderForm">
+          <!-- Menu Summary -->
+          <div class="menu-display">
+            <h3 style="color: #2e7d32; margin-bottom: 15px">
+              ✅ Menu yang Dipilih
+            </h3>
+            <div class="menu-list" id="menuList"></div>
+            <div class="total-portions" id="totalPortionsDisplay">
+              Total: <span id="portionsCount">0</span> porsi bergizi
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>👤 Nama Lengkap Pemesan *</label>
+            <input
+              type="text"
+              id="customerName"
+              placeholder="Nama lengkap Anda"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>👶 Nama Anak *</label>
+            <input
+              type="text"
+              id="childName"
+              placeholder="Nama anak yang akan makan"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>🆔 NIK Anak (16 digit) *</label>
+            <input
+              type="text"
+              id="childNIK"
+              placeholder="3101010101010001"
+              maxlength="16"
+              pattern="[0-9]{16}"
+              title="NIK harus 16 digit angka"
+              required
+            />
+            <small style="color: #1976d2; font-size: 0.9em; font-weight: 500">
+              Digunakan untuk verifikasi kuota 3 porsi/hari per anak
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label>📱 Nomor Telepon/WhatsApp *</label>
+            <input type="tel" id="phone" placeholder="08xxxxxxxxx" required />
+          </div>
+
+          <div class="form-group">
+            <label>📍 Alamat Lengkap Pengiriman *</label>
+            <textarea
+              id="address"
+              placeholder="Jl. Contoh No. 123, RT/RW 001/002, Kelurahan, Kecamatan, Kota, Kode Pos"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>⚠️ Keterangan Khusus / Alergen / Preferensi *</label>
+            <textarea
+              id="specialNotes"
+              placeholder="Contoh: Alergi kacang, tidak suka sayur hijau, suka pedas ringan, tambah keju, dll..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>⏰ Waktu Pengiriman yang Diinginkan</label>
+            <select id="deliveryTime">
+              <option value="">Pilih waktu pengiriman...</option>
+              <option value="pagi">🌅 Pagi (08:00 - 11:00)</option>
+              <option value="siang">☀️ Siang (11:00 - 14:00)</option>
+              <option value="sore">🌇 Sore (14:00 - 17:00)</option>
+            </select>
+          </div>
+
+          <div
+            style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 40px"
+          >
+            <a href="pre.html" class="btn btn-back">← Kembali ke Menu</a>
+            <button
+              type="button"
+              class="btn"
+              id="paymentBtn"
+              onclick="goToPayment()"
+              disabled
+            >
+              🚀 Lanjut ke Konfirmasi Pesanan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Simulated order database (in real app, use backend/database)
+      const orderDatabase = JSON.parse(localStorage.getItem("orderDB")) || {};
+
+      // Get menu data from URL (compatible with revised pre.html - no prices)
+      const urlParams = new URLSearchParams(window.location.search);
+      const menusJson = urlParams.get("menus");
+      const totalPortions = parseInt(urlParams.get("totalPortions")) || 0;
+
+      let menuData = [];
+
+      if (menusJson) {
+        try {
+          menuData = JSON.parse(menusJson);
+        } catch (e) {
+          console.error("Error parsing menu data:", e);
+          alert("Error: Data menu tidak ditemukan. Kembali ke halaman menu.");
+          window.location.href = "pre.html";
+        }
+      } else {
+        alert("Error: Data menu tidak ditemukan. Kembali ke halaman menu.");
+        window.location.href = "pre.html";
+      }
+
+      // Display menu data (no prices)
+      document.getElementById("totalPortions").textContent = totalPortions;
+      document.getElementById("portionsCount").textContent = totalPortions;
+
+      const menuList = document.getElementById("menuList");
+      menuData.forEach((menu) => {
+        const menuItem = document.createElement("div");
+        menuItem.className = "menu-item";
+        menuItem.innerHTML = `
+          <strong style="color: #2e7d32;">${menu.name}</strong>
+        `;
+        menuList.appendChild(menuItem);
+      });
+
+      // NIK Validation & Limit Check
+      document
+        .getElementById("childNIK")
+        .addEventListener("input", function (e) {
+          const nik = e.target.value.replace(/[^0-9]/g, "");
+          e.target.value = nik;
+
+          if (nik.length === 16) {
+            checkOrderLimit(nik);
+          } else {
+            hideQuotaInfo();
+            document.getElementById("paymentBtn").disabled = true;
+          }
+        });
+
+      function checkOrderLimit(nik) {
+        const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+        const childOrders = orderDatabase[nik] || {};
+        const todayOrders = childOrders[today] || 0;
+
+        document.getElementById("limitWarning").style.display = "none";
+        document.getElementById("quotaInfo").style.display = "none";
+
+        if (todayOrders >= 3) {
+          // Limit reached
+          document.getElementById("limitWarning").style.display = "block";
+          document.getElementById("limitWarning").innerHTML = `
+            <strong>❌ Kuota pemesanan habis!</strong><br>
+            <small>NIK <strong>${nik.substring(
+              0,
+              8
+            )}****</strong> sudah memesan <strong>${todayOrders}</strong> porsi hari ini (maksimal 3 porsi)</small>
+          `;
+          document.getElementById("paymentBtn").disabled = true;
+        } else {
+          // Quota available
+          const remaining = 3 - todayOrders;
+          document.getElementById("quotaInfo").style.display = "block";
+          document.getElementById("quotaInfo").innerHTML = `
+            <strong>✅ Kuota tersedia: <span style="color: #4caf50;">${remaining}</span> porsi lagi</strong><br>
+            <small>Sudah <strong>${todayOrders}</strong> porsi hari ini (maksimal 3 porsi)</small>
+          `;
+
+          // Check if current order exceeds remaining quota
+          if (totalPortions > remaining) {
+            document.getElementById("limitWarning").style.display = "block";
+            document.getElementById("limitWarning").innerHTML = `
+              <strong>⚠️ Pemesanan melebihi kuota!</strong><br>
+              <small>Hanya <strong>${remaining}</strong> porsi tersisa. Sudah <strong>${todayOrders}</strong> porsi hari ini.</small>
+            `;
+            document.getElementById("paymentBtn").disabled = true;
+          } else {
+            document.getElementById("paymentBtn").disabled = false;
+          }
+        }
+      }
+
+      function hideQuotaInfo() {
+        document.getElementById("quotaInfo").style.display = "none";
+        document.getElementById("limitWarning").style.display = "none";
+      }
+
+      function goToPayment() {
+        // Validate form
+        const form = document.getElementById("orderForm");
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const childNIK = document.getElementById("childNIK").value;
+        if (childNIK.length !== 16) {
+          alert("NIK anak harus 16 digit!");
+          return;
+        }
+
+        // Collect all data (no price data)
+        const orderData = {
+          menus: JSON.stringify(menuData),
+          totalPortions: totalPortions,
+          customerName: document.getElementById("customerName").value,
+          childName: document.getElementById("childName").value,
+          childNIK: childNIK,
+          phone: document.getElementById("phone").value,
+          address: document.getElementById("address").value,
+          specialNotes: document.getElementById("specialNotes").value,
+          deliveryTime: document.getElementById("deliveryTime").value,
+        };
+
+        // Update order database (simulated)
+        const today = new Date().toISOString().split("T")[0];
+        if (!orderDatabase[childNIK]) orderDatabase[childNIK] = {};
+        if (!orderDatabase[childNIK][today]) orderDatabase[childNIK][today] = 0;
+        orderDatabase[childNIK][today] += totalPortions;
+        localStorage.setItem("orderDB", JSON.stringify(orderDatabase));
+
+        // Create query string
+        const queryString = new URLSearchParams(orderData).toString();
+        window.location.href = `page3.html?${queryString}`;
+      }
+    </script>
+  </body>
+</html>

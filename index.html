@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        min-height: 100vh;
+      }
+
+      /* RESPONSIVE BANNER - Perfect on PC/Laptop/Tablet/Phone */
+      .banner {
+        width: 100%;
+        height: 60vh;
+        min-height: 300px;
+        max-height: 700px;
+        position: relative;
+        overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .banner img {
+        width: 85%;
+        height: 85%;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(191, 219, 254, 0.4) 0%,
+          /* lighter blue */ rgba(219, 234, 254, 0.3) 50%,
+          /* very soft blue */ rgba(239, 246, 255, 0.2) 100%
+        );
+      }
+      /* ===== END BANNER ===== */
+
+      .banner-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 2;
+        backdrop-filter: blur(2px);
+        padding: 20px;
+      }
+
+      .banner h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+      }
+
+      .banner p {
+        font-size: 1.1rem;
+        font-weight: 300;
+        opacity: 0.95;
+        max-width: 90%;
+        margin: 0 auto;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .page-title h2 {
+        color: #1e40af;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .content {
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+        margin-bottom: 60px;
+        line-height: 1.8;
+      }
+
+      .content h1 {
+        color: #1e40af;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .content p {
+        font-size: 1.2rem;
+        color: #475569;
+        margin-bottom: 25px;
+        text-align: justify;
+      }
+
+      .content strong {
+        color: #1e40af;
+        font-weight: 600;
+      }
+
+      /* FIXED CENTERED Bottom Navigation Panels */
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin: 0 auto 100px;
+        max-width: 1200px;
+        width: 100%;
+        justify-items: center;
+        justify-content: center;
+      }
+
+      .nav-panel {
+        background: white;
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-top: 5px solid transparent;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        max-width: 380px;
+        width: 100%;
+      }
+
+      .nav-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-panel:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3);
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .nav-panel:hover::before {
+        transform: scaleX(1);
+      }
+
+      .nav-panel,
+      .nav-panel *,
+      .nav-panel h3,
+      .nav-panel p,
+      .nav-panel .icon {
+        text-decoration: none !important;
+      }
+
+      .nav-panel h3 {
+        font-size: 1.8rem;
+        color: #1e40af;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .nav-panel p {
+        color: #64748b;
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+        line-height: 1.5;
+      }
+
+      .nav-panel .icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      /* Floating Action Button */
+      .fab {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 220px;
+        height: 60px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-decoration: none !important;
+      }
+
+      .fab:hover {
+        transform: translateX(-50%) translateY(-5px);
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        color: white;
+        text-decoration: none !important;
+      }
+
+      .fab::before {
+        content: "🚀";
+        font-size: 1.4rem;
+        animation: bounce 2s infinite;
+        text-decoration: none;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-5px);
+        }
+        60% {
+          transform: translateY(-3px);
+        }
+      }
+
+      /* RESPONSIVE BREAKPOINTS */
+      @media (max-width: 768px) {
+        .banner {
+          height: 35vh;
+          min-height: 180px;
+        }
+
+        .banner h1 {
+          font-size: 2.2rem;
+        }
+
+        .banner p {
+          font-size: 1.1rem;
+        }
+
+        .container {
+          padding: 0 15px;
+        }
+
+        .content {
+          padding: 30px 25px;
+        }
+
+        .content h1 {
+          font-size: 2rem;
+        }
+
+        .content p {
+          font-size: 1.1rem;
+        }
+
+        .bottom-nav {
+          grid-template-columns: 1fr;
+          gap: 20px;
+          max-width: 400px;
+        }
+
+        .nav-panel {
+          max-width: 100%;
+          padding: 30px 25px;
+        }
+
+        .fab {
+          width: 200px;
+          height: 55px;
+          font-size: 1.1rem;
+          bottom: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .banner {
+          height: 30vh;
+          min-height: 160px;
+        }
+
+        .banner h1 {
+          font-size: 1.8rem;
+        }
+
+        .banner p {
+          font-size: 1rem;
+        }
+
+        .container {
+          padding: 0 10px;
+        }
+
+        .bottom-nav {
+          gap: 15px;
+        }
+      }
+
+      @media (min-width: 1440px) {
+        .banner {
+          height: 45vh;
+          max-height: 500px;
+        }
+
+        .container {
+          padding: 0 40px;
+        }
+      }
+
+      /* Universal link fix */
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PERFECT RESPONSIVE BANNER -->
+    <div class="banner">
+      <img
+        src="p1.jpeg"
+        alt="Paket Bergizi Balita"
+        loading="eager"
+      />
+      <div class="banner-overlay">
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      </div>
+
+      <div class="content">
+        <h1>PAKET BERGIZI BALITA</h1>
+
+        <p>
+          Masa <strong>golden age (0–6 tahun)</strong> merupakan periode penting
+          di mana perkembangan anak mencapai sekitar
+          <strong>80% kapasitas saat dewasa</strong>. Pada fase ini, asupan gizi
+          yang cukup dan seimbang sangat dibutuhkan untuk mendukung pertumbuhan
+          fisik, perkembangan otak, serta daya tahan tubuh. Oleh karena itu,
+          diperlukan program yang mampu memastikan pemenuhan gizi balita secara
+          merata dan tepat sasaran.
+        </p>
+
+        <p>
+          <strong>Paket Bergizi Balita</strong> adalah layanan penyediaan
+          makanan dan minuman bergizi secara gratis yang ditujukan khusus untuk
+          anak usia 0–6 tahun. Program ini dapat diakses melalui website
+          <strong>HEALTHILY</strong> sehingga memudahkan orang tua dalam
+          memenuhi kebutuhan gizi anak secara praktis dan teratur.
+        </p>
+
+        <p>
+          Program ini dikelola oleh
+          <strong>warga desa dan pelaku UMKM lokal</strong> sebagai bentuk
+          pemberdayaan ekonomi masyarakat. Proses penyediaan makanan diawasi
+          oleh ahli gizi dari puskesmas untuk memastikan kualitas dan kandungan
+          gizi tetap terjaga. Pendanaan program berasal dari
+          <strong>APBN dan dana desa</strong> guna menjamin keberlanjutan
+          layanan.
+        </p>
+      </div>
+
+      <!-- FIXED CENTERED Bottom Navigation Panels -->
+      <div class="bottom-nav">
+        <a href="cast.html" class="nav-panel">
+          <span class="icon">📰</span>
+          <h3>Healthcast</h3>
+          <p>
+            Berita kesehatan terbaru dan tips hidup sehat untuk masyarakat desa
+          </p>
+        </a>
+        <a href="gizi.html" class="nav-panel">
+          <span class="icon">🍎</span>
+          <h3>Edukasi Gizi</h3>
+          <p>Panduan gizi seimbang untuk balita dan anak-anak</p>
+        </a>
+        <a href="sampah.html" class="nav-panel">
+          <span class="icon">🗑️</span>
+          <h3>Manajemen Sampah</h3>
+          <p>Program pengelolaan sampah ramah lingkungan di desa</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <a href="instruct.html" class="fab">Pesan sekarang, yuk!</a>
+  </body>
+</html>

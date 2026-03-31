@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edukasi Gizi - Healthcast</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        min-height: 100vh;
+      }
+
+      /* ===== UPDATED BANNER ===== */
+      .banner {
+        width: 100%;
+        height: 60vh;
+        min-height: 300px;
+        max-height: 700px;
+        position: relative;
+        overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .banner img {
+        width: 85%;
+        height: 85%;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(191, 219, 254, 0.4) 0%,
+          /* lighter blue */ rgba(219, 234, 254, 0.3) 50%,
+          /* very soft blue */ rgba(239, 246, 255, 0.2) 100%
+        );
+      }
+      /* ===== END BANNER ===== */
+
+      .banner-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 2;
+        backdrop-filter: blur(2px);
+        padding: 20px;
+      }
+
+      .banner h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+      }
+
+      .banner p {
+        font-size: 1.1rem;
+        font-weight: 300;
+        opacity: 0.95;
+        max-width: 90%;
+        margin: 0 auto;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      .page-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .page-title h2 {
+        color: #1e40af;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      .content {
+        background: white;
+        border-radius: 20px;
+        padding: 50px;
+        box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+        margin-bottom: 60px;
+        line-height: 1.8;
+      }
+
+      .content h1 {
+        color: #1e40af;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #1e40af, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .content h3 {
+        color: #1e40af;
+        font-size: 1.6rem;
+        margin: 35px 0 20px 0;
+        font-weight: 600;
+      }
+
+      .content h4 {
+        color: #1d4ed8;
+        font-size: 1.3rem;
+        margin: 25px 0 15px 0;
+        font-weight: 600;
+      }
+
+      .content p {
+        font-size: 1.2rem;
+        color: #475569;
+        margin-bottom: 25px;
+        text-align: justify;
+      }
+
+      .content ul {
+        font-size: 1.15rem;
+        color: #334155;
+        margin: 20px 0;
+        padding-left: 30px;
+      }
+
+      .content li {
+        margin-bottom: 12px;
+      }
+
+      .content strong {
+        color: #1e40af;
+        font-weight: 600;
+      }
+
+      .highlight-box {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 5px solid #3b82f6;
+        margin: 25px 0;
+      }
+
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 100px;
+      }
+
+      .nav-panel {
+        background: white;
+        border-radius: 20px;
+        padding: 35px 25px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-top: 5px solid transparent;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .nav-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-panel:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3);
+        color: inherit;
+      }
+
+      .nav-panel:hover::before {
+        transform: scaleX(1);
+      }
+
+      .nav-panel h3 {
+        font-size: 1.6rem;
+        color: #1e40af;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .nav-panel p {
+        color: #64748b;
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      .nav-panel .icon {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .fab {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 220px;
+        height: 60px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .fab:hover {
+        transform: translateX(-50%) translateY(-5px);
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        color: white;
+      }
+
+      .fab::before {
+        content: "🚀";
+        font-size: 1.4rem;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-5px);
+        }
+        60% {
+          transform: translateY(-3px);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="banner">
+      <img src="p1.jpeg" alt="Edukasi Gizi Banner" loading="eager" />
+      <div class="banner-overlay"></div>
+    </div>
+
+    <div class="container">
+      <div class="page-title">
+        <h2>Edukasi Gizi untuk Balita dan Anak-Anak</h2>
+      </div>
+
+      <div class="content">
+        <p>
+          Gizi yang seimbang sangat penting bagi pertumbuhan dan perkembangan
+          anak. Kekurangan gizi dapat menyebabkan gangguan pertumbuhan, daya
+          tahan tubuh rendah, hingga masalah belajar.
+        </p>
+
+        <h3>Kebutuhan Gizi Harian</h3>
+        <p>
+          Menurut <strong>Kementerian Kesehatan Republik Indonesia</strong>,
+          kebutuhan gizi anak meliputi:
+        </p>
+        <ul>
+          <li><strong>Karbohidrat:</strong> sumber energi (nasi, roti)</li>
+          <li><strong>Protein:</strong> pertumbuhan (telur, ikan, tempe)</li>
+          <li><strong>Lemak:</strong> cadangan energi</li>
+          <li><strong>Vitamin & mineral:</strong> menjaga fungsi tubuh</li>
+          <li><strong>Air:</strong> menjaga hidrasi</li>
+        </ul>
+
+        <h3>Isi Piring Sehat</h3>
+        <div class="highlight-box">
+          <h4>Konsep "Isi Piringku":</h4>
+          <ul>
+            <li><strong>½ piring:</strong> sayur dan buah</li>
+            <li><strong>½ piring:</strong> karbohidrat dan protein</li>
+          </ul>
+        </div>
+
+        <h3>Cara Menjaga Pola Makan Anak</h3>
+        <ul>
+          <li>Makan 3 kali sehari + 2 camilan sehat</li>
+          <li>Kurangi makanan instan dan tinggi gula</li>
+          <li>Biasakan sarapan</li>
+          <li>Berikan variasi makanan</li>
+        </ul>
+
+        <p>
+          Menurut <strong>UNICEF</strong>, pola makan yang baik sejak dini
+          berperan penting dalam mencegah stunting dan meningkatkan kualitas
+          hidup anak.
+        </p>
+
+        <h3>Tips untuk Orang Tua</h3>
+        <ul>
+          <li>Jadikan makan sebagai aktivitas menyenangkan</li>
+          <li>Beri contoh pola makan sehat</li>
+          <li>Hindari memaksa anak makan</li>
+        </ul>
+
+        <h3>Kesimpulan</h3>
+        <p>
+          Edukasi gizi harus dimulai dari keluarga. Dengan pola makan yang sehat
+          dan seimbang, anak dapat tumbuh optimal dan terhindar dari berbagai
+          penyakit.
+        </p>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="index.html" class="nav-panel">
+          <span class="icon">🥛</span>
+          <h3>Paket Bergizi Balita</h3>
+          <p>Program makanan bergizi gratis untuk anak 0-6 tahun</p>
+        </a>
+        <a href="sampah.html" class="nav-panel">
+          <span class="icon">🗑️</span>
+          <h3>Manajemen Sampah</h3>
+          <p>Program pengelolaan sampah ramah lingkungan di desa</p>
+        </a>
+        <a href="cast.html" class="nav-panel">
+          <span class="icon">📰</span>
+          <h3>Healthcast</h3>
+          <p>Berita kesehatan terbaru untuk masyarakat desa</p>
+        </a>
+      </div>
+    </div>
+
+    <a href="instruct.html" class="fab">Pesan sekarang, yuk!</a>
+  </body>
+</html>

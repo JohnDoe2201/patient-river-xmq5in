@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthcast</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+      }
+
+      /* RESPONSIVE BANNER - Perfect on PC/Laptop/Tablet/Phone */
+      .banner {
+        width: 100%;
+        height: 60vh;
+        min-height: 300px;
+        max-height: 700px;
+        position: relative;
+        overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .banner img {
+        width: 85%;
+        height: 85%;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(191, 219, 254, 0.4) 0%,
+          /* lighter blue */ rgba(219, 234, 254, 0.3) 50%,
+          /* very soft blue */ rgba(239, 246, 255, 0.2) 100%
+        );
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+      }
+
+      .nav-btn {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        display: inline-block;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+        color: white;
+      }
+
+      .quick-actions {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+        padding: 20px 0;
+      }
+
+      .quick-action-btn {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        padding: 18px 35px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .quick-action-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .quick-action-btn:hover::before {
+        left: 100%;
+      }
+
+      .quick-action-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        color: white;
+      }
+
+      .quick-action-btn .emoji {
+        font-size: 1.4rem;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-5px);
+        }
+        60% {
+          transform: translateY(-3px);
+        }
+      }
+
+      /* FAB BUTTON - SAME AS SAMPHAH.HTML */
+      .fab {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 220px;
+        height: 60px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .fab:hover {
+        transform: translateX(-50%) translateY(-5px);
+        box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+        color: white;
+      }
+
+      .fab::before {
+        content: "🚀";
+        font-size: 1.4rem;
+        animation: bounce 2s infinite;
+      }
+
+      .section {
+        background: white;
+        margin-bottom: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.25);
+      }
+
+      .section-header {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+        padding: 25px 30px;
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+
+      .section-content {
+        padding: 30px;
+      }
+
+      .news-item {
+        background: #f8fafc;
+        border-left: 5px solid #3b82f6;
+        padding: 25px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+      }
+
+      .news-title {
+        color: #1e40af;
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .news-detail {
+        color: #475569;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+      }
+
+      .importance {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid #1d4ed8;
+      }
+
+      .importance h4 {
+        color: #1e40af;
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .importance ul {
+        color: #334155;
+        padding-left: 20px;
+      }
+
+      .importance li {
+        margin-bottom: 8px;
+      }
+
+      .participation {
+        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        color: white;
+      }
+
+      .participation .section-content {
+        padding: 30px;
+      }
+
+      .participation h3 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+      }
+
+      .participation ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .participation li {
+        padding: 12px 0;
+        padding-left: 25px;
+        position: relative;
+        font-size: 1.1rem;
+      }
+
+      .participation li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #10b981;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .conclusion {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        text-align: center;
+        padding: 40px 30px;
+      }
+
+      .conclusion p {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 60px;
+        margin-bottom: 60px;
+      }
+
+      .nav-panel {
+        background: white;
+        border-radius: 20px;
+        padding: 35px 25px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-top: 5px solid transparent;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .nav-panel::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-panel:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 60px rgba(59, 130, 246, 0.3);
+        color: inherit;
+      }
+
+      .nav-panel:hover::before {
+        transform: scaleX(1);
+      }
+
+      .nav-panel h3 {
+        font-size: 1.6rem;
+        color: #1e40af;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+
+      .nav-panel p {
+        color: #64748b;
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      .nav-panel .icon {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      /* RESPONSIVE BREAKPOINTS */
+      @media (max-width: 768px) {
+        .banner {
+          height: 35vh;
+          min-height: 180px;
+        }
+
+        .container {
+          padding: 20px 15px;
+        }
+
+        .section-content {
+          padding: 20px;
+        }
+
+        .section-header {
+          padding: 20px;
+          font-size: 1.5rem;
+        }
+
+        .nav-links {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .nav-btn {
+          width: 250px;
+          text-align: center;
+        }
+
+        .quick-actions {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .quick-action-btn {
+          width: 280px;
+          justify-content: center;
+        }
+
+        .bottom-nav {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .fab {
+          width: 200px;
+          height: 55px;
+          font-size: 1.1rem;
+          bottom: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .banner {
+          height: 30vh;
+          min-height: 160px;
+        }
+
+        .container {
+          padding: 15px 10px;
+        }
+
+        .section-content {
+          padding: 15px;
+        }
+
+        .section-header {
+          padding: 15px;
+          font-size: 1.3rem;
+        }
+
+        .quick-action-btn {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .nav-btn {
+          width: 100%;
+          max-width: 280px;
+        }
+
+        .fab {
+          width: 190px;
+          height: 50px;
+          font-size: 1rem;
+          bottom: 15px;
+        }
+      }
+
+      @media (min-width: 1440px) {
+        .banner {
+          height: 45vh;
+          max-height: 500px;
+        }
+
+        .container {
+          max-width: 1400px;
+          padding: 60px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PERFECT RESPONSIVE BANNER -->
+    <div class="banner">
+      <img src="p1.jpeg" alt="Healthcast Banner" loading="eager" />
+      <div class="banner-overlay"></div>
+    </div>
+    <div class="container">
+      <!-- ALL 3 HEADLINES ✅ -->
+
+      <!-- News Item 1 -->
+      <div class="section">
+        <div class="section-header">1. Wabah Campak (Measles) Meningkat</div>
+        <div class="section-content">
+          <div class="news-item">
+            <div class="news-title">
+              Kasus campak meningkat di beberapa negara
+            </div>
+            <div class="news-detail">
+              Kasus campak meningkat di beberapa negara, terutama pada anak-anak
+              yang belum mendapatkan vaksin lengkap.
+            </div>
+            <div class="news-detail">
+              Menurut <strong>World Health Organization</strong>, sebagian besar
+              kasus campak terjadi pada individu yang tidak divaksinasi,
+              sehingga penyakit ini mudah menyebar.
+            </div>
+          </div>
+          <div class="importance">
+            <h4>Makna bagi masyarakat:</h4>
+            <ul>
+              <li>Penting melengkapi imunisasi anak</li>
+              <li>Mencegah penularan penyakit sejak dini</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- News Item 2 -->
+      <div class="section">
+        <div class="section-header">2. Virus Polio Masih Terdeteksi</div>
+        <div class="section-content">
+          <div class="news-item">
+            <div class="news-title">
+              Virus polio kembali ditemukan di lingkungan
+            </div>
+            <div class="news-detail">
+              Virus polio kembali ditemukan di lingkungan (seperti air limbah),
+              menandakan penyakit ini belum sepenuhnya hilang.
+            </div>
+            <div class="news-detail">
+              Menurut <strong>World Health Organization</strong>, vaksinasi
+              tetap menjadi cara utama untuk mencegah penyebaran polio.
+            </div>
+          </div>
+          <div class="importance">
+            <h4>Makna bagi masyarakat:</h4>
+            <ul>
+              <li>Tetap mengikuti program imunisasi</li>
+              <li>Menjaga kekebalan kelompok (herd immunity)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- News Item 3 -->
+      <div class="section">
+        <div class="section-header">
+          3. Penyakit Akibat Nyamuk Meningkat (Dengue)
+        </div>
+        <div class="section-content">
+          <div class="news-item">
+            <div class="news-title">Kasus demam berdarah meningkat</div>
+            <div class="news-detail">
+              Kasus demam berdarah (dengue) meningkat di berbagai wilayah akibat
+              perubahan iklim dan lingkungan.
+            </div>
+            <div class="news-detail">
+              Menurut
+              <strong>Centers for Disease Control and Prevention</strong>,
+              pencegahan utama adalah menghindari gigitan nyamuk dan menjaga
+              lingkungan tetap bersih.
+            </div>
+          </div>
+          <div class="importance">
+            <h4>Makna bagi masyarakat:</h4>
+            <ul>
+              <li>Menguras dan menutup tempat air</li>
+              <li>Menjaga kebersihan lingkungan</li>
+              <li>Menggunakan perlindungan anti-nyamuk</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Participation Section -->
+      <div class="section participation">
+        <div class="section-header">Partisipasi Warga Desa</div>
+        <div class="section-content">
+          <h3>Warga dapat ikut berkontribusi dengan:</h3>
+          <ul>
+            <li>Mengirim artikel kesehatan</li>
+            <li>Melaporkan kegiatan desa</li>
+            <li>Berbagi tips hidup sehat</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Conclusion -->
+      <div class="section conclusion">
+        <div class="section-content">
+          <p>
+            Isu kesehatan global seperti wabah penyakit dan perubahan lingkungan
+            dapat berdampak pada semua orang. Dengan kesadaran dan tindakan
+            sederhana, masyarakat desa dapat menjaga kesehatan bersama.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation Panels -->
+      <div class="bottom-nav">
+        <a href="index.html" class="nav-panel">
+          <span class="icon">🥛</span>
+          <h3>Paket Bergizi Balita</h3>
+          <p>Program makanan bergizi gratis untuk anak 0-6 tahun</p>
+        </a>
+        <a href="gizi.html" class="nav-panel">
+          <span class="icon">🍎</span>
+          <h3>Edukasi Gizi</h3>
+          <p>Panduan gizi seimbang untuk balita dan anak-anak</p>
+        </a>
+        <a href="sampah.html" class="nav-panel">
+          <span class="icon">🗑️</span>
+          <h3>Manajemen Sampah</h3>
+          <p>Program pengelolaan sampah ramah lingkungan di desa</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- FAB BUTTON - IDENTICAL TO SAMPHAH.HTML -->
+    <a href="instruct.html" class="fab">Pesan sekarang, yuk!</a>
+  </body>
+</html>
